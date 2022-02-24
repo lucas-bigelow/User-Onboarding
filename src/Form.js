@@ -11,7 +11,7 @@ const initialVals = {
 }
 
 function Form(props) {
-
+  const { setErrors, addNewUser } = props;
 
   const [userVals, setUserVals] = useState(initialVals);
 
@@ -19,20 +19,22 @@ function Form(props) {
   const validate = (name, value)=> {
     yup.reach(schema, name)
       .validate(value)
-      .then(() => setFormErrors)
+      .then(() => setErrors(name, ''))
+      .catch(err => setErrors(name, err))
   }
 
   // handle all changes including checkbox
   const change = (evt) => {
     const { name, value, type, checked } = evt.target;
     const newValue = type === 'checkbox' ? checked : value;
+    validate(name, newValue);
     setUserVals({...userVals, [name]: newValue})
   }
 
   // handle submit
   const submit = evt => {
     evt.preventDefault();
-    console.log(userVals)
+    addNewUser(userVals);
   }
 
   return (

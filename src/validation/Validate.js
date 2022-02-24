@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-const formSchema = yup.object.shape({
+const formSchema = yup.object().shape({
   name: yup
     .string()
     .trim()
@@ -14,7 +14,7 @@ const formSchema = yup.object.shape({
     .string()
     .required('Please enter a password'),
   terms: yup
-    .boolean('Bro, how\'d you even...')
+    .boolean()
 })
 
 export default formSchema;
