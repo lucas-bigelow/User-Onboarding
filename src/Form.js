@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import * as yup from 'yup';
+
+import schema from './validation/Validate';
 
 const initialVals = {
   name: '',
@@ -8,15 +11,26 @@ const initialVals = {
 }
 
 function Form(props) {
+
+
   const [userVals, setUserVals] = useState(initialVals);
 
+  // form validation
+  const validate = (name, value)=> {
+    yup.reach(schema, name)
+      .validate(value)
+      .then(() => setFormErrors)
+  }
+
+  // handle all changes including checkbox
   const change = (evt) => {
     const { name, value, type, checked } = evt.target;
     const newValue = type === 'checkbox' ? checked : value;
     setUserVals({...userVals, [name]: newValue})
   }
 
-  const submit = evt=> {
+  // handle submit
+  const submit = evt => {
     evt.preventDefault();
     console.log(userVals)
   }
@@ -65,3 +79,6 @@ function Form(props) {
 }
 
 export default Form;
+
+// yup.reach(schema, name)
+// .validate(value)
